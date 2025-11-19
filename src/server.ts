@@ -7,6 +7,7 @@ import cors from "@fastify/cors"
 import fastifyCookie from "@fastify/cookie"
 import { env } from "./utils/env.ts"
 import { createUserRouter } from "./routes/create-users.ts"
+import { loginRoute } from "./routes/login.ts"
 
 const server = fastify({
     logger: {
@@ -50,6 +51,7 @@ server.setSerializerCompiler(serializerCompiler)
 
 
 server.register(createUserRouter)
+server.register(loginRoute)
 
 server.listen({ port: 3333 }).then(() => {
     console.log("HTTP server is running")
