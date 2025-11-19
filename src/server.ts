@@ -3,6 +3,10 @@ import fastify from "fastify"
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod"
 import scalarAPIReference from "@scalar/fastify-api-reference"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
+import cors from "@fastify/cors"
+import fastifyCookie from "@fastify/cookie"
+import { env } from "./utils/env.ts"
+import { createUserRouter } from "./routes/create-users.ts"
 
 const server = fastify({
     logger: {
@@ -26,6 +30,17 @@ server.register(fastifySwagger, {
     transform: jsonSchemaTransform
 })
 
+server.register(cors, {
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Platform'],
+    credentials: true
+})
+
+server.register(fastifyCookie, {
+    secret: env.COOKIE_SECRET
+})
+
 server.register(scalarAPIReference, {
     routePrefix: "/docs"
 })
@@ -33,16 +48,8 @@ server.register(scalarAPIReference, {
 server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
 
-const classes = [
-    { id: 1, name: "Português" },
-    { id: 2, name: "Inglês" },
-    { id: 3, name: "Matemática" },
-    { id: 4, name: "Geografia" }
-]
 
-server.get("/classes", (request, replay) => {
-    return replay.send({ classes })
-})
+server.register(createUserRouter)
 
 server.listen({ port: 3333 }).then(() => {
     console.log("HTTP server is running")
