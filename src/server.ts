@@ -2,7 +2,7 @@ import fastifySwagger from "@fastify/swagger"
 import fastify from "fastify"
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod"
 import scalarAPIReference from "@scalar/fastify-api-reference"
-import { ZodTypeProvider } from "fastify-type-provider-zod"
+import type { ZodTypeProvider } from "fastify-type-provider-zod"
 
 const server = fastify({
     logger: {

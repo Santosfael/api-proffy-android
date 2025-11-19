@@ -20,7 +20,7 @@
     "@fastify/swagger-ui": "^5.2.3",
     "@scalar/fastify-api-reference": "^1.39.3",
     "argon2": "^0.44.0",
-    "drizzle-kit": "^0.18.1",
+    "drizzle-kit": "^0.31.5",
     "drizzle-orm": "^0.44.7",
     "fastify": "^5.6.2",
     "fastify-type-provider-zod": "^6.1.0",
