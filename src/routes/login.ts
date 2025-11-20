@@ -21,7 +21,7 @@ export const loginRoute: FastifyPluginAsyncZod = async (server) => {
             }),
             response: {
                 200: z.object({ token: z.string() }),
-                400: z.object({ message: z.string })
+                400: z.object({ message: z.string() })
             }
         }
     }, async (request, reply) => {
