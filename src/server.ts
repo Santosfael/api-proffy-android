@@ -9,6 +9,7 @@ import { env } from "./utils/env.ts"
 import { createUserRouter } from "./routes/create-users.ts"
 import { loginRoute } from "./routes/login.ts"
 import { createClassesRouter } from "./routes/create-classes.ts"
+import { getClassesRouter } from "./routes/get-classes.ts"
 
 const server = fastify({
     logger: {
@@ -54,6 +55,7 @@ server.setSerializerCompiler(serializerCompiler)
 server.register(createUserRouter)
 server.register(loginRoute)
 server.register(createClassesRouter)
+server.register(getClassesRouter)
 
 server.listen({ port: 3333 }).then(() => {
     console.log("HTTP server is running")
