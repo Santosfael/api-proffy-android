@@ -1,7 +1,7 @@
 services:
   postgres:
-    image: postgres:17
-    container_name: api_proffy
+    image: postgres:17.7-alpine3.23
+    container_name: db-proffy
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -9,8 +9,28 @@ services:
       POSTGRES_DB: proffy_database
     ports:
       - "5432:5432"
-    volumes:
-      - proffy_data:/var/lib/postgresql/data
+    networks:
+      - proffy
+  
+  api-proffy:
+    build:
+      context: .
+    container_name: api-proffy
+    restart: always
+    command: sh -c "npm run db:migrate && npm run start"
+    ports:
+      - 3001:3333
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/proffy_database
+      - API_BASE_URL=http://localhost:3333
+      - JWT_TOKEN=bc8b67ae-2cf8-4ace-8861-2b2083b66ebf
+      - COOKIE_SECRET=bc8b67ae-2cf8-4ace-8861-2b2083b66ebf
+      - NODE_ENV=production
+    depends_on:
+      - postgres
+    networks:
+      - proffy
 
-volumes:
-  proffy_data:
+networks:
+  proffy:
+    driver: bridge
