@@ -33,4 +33,6 @@ jobs:
       - name: Push docker image
         run: |
           docker push santosfael/api-proffy:${{ steps.generate_sha.outputs.sha }}
+          docker tag santosfael/api-proffy:${{ steps.generate_sha.outputs.sha }} santosfael/api-proffy:latest
+          docker push santosfael/api-proffy:latest
 
