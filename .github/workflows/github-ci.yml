@@ -9,6 +9,7 @@ jobs:
   build-and-push:
     name: "Build and Push"
     runs-on: ubuntu-latest
+    environment: 'staging'
 
     steps:
       - name: Checkout
