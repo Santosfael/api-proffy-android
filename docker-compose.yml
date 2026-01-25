@@ -4,16 +4,16 @@ services:
     container_name: db-proffy
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: proffy_database
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
-      - 'db:/var/lib/postgresql/data'
+      - "db:/var/lib/postgresql/data"
     networks:
       - proffy
-  
+
   api-proffy:
     build:
       context: .
@@ -23,10 +23,10 @@ services:
     ports:
       - 3001:3333
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/proffy_database
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
       - API_BASE_URL=http://localhost:3333
-      - JWT_TOKEN=bc8b67ae-2cf8-4ace-8861-2b2083b66ebf
-      - COOKIE_SECRET=bc8b67ae-2cf8-4ace-8861-2b2083b66ebf
+      - JWT_TOKEN=${JWT_TOKEN}
+      - COOKIE_SECRET=${COOKIE_SECRET}
       - NODE_ENV=production
     depends_on:
       - postgres
