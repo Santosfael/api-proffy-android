@@ -19,7 +19,7 @@ services:
       context: .
     container_name: api-proffy
     restart: always
-    command: sh -c "npm run db:migrate"
+    command: sh -c "npm run db:migrate && npm run start"
     ports:
       - 3001:3333
     environment:
