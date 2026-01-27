@@ -28,3 +28,4 @@ COPY --from=build /usr/src/app/drizzle ./drizzle
 COPY --from=build /usr/src/app/drizzle.config.ts ./drizzle.config.ts
 
 EXPOSE 3333
+CMD ["sh", "-c", "npm run db:migrate && npm run start"]
