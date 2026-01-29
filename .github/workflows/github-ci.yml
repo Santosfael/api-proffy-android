@@ -39,7 +39,7 @@ jobs:
       - name: Update value.yaml in Helm repo
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: charts/proffy/values.yaml
+          valueFile: /proffy/values.yaml
           propertyPath: 'image.tag'
           value: ${{ steps.generate_sha.outputs.sha }}
           repository: Santosfael/helm-files
