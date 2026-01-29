@@ -39,12 +39,13 @@ jobs:
       - name: Update value.yaml in Helm repo
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: /proffy/values.yaml
+          valueFile: 'proffy/values.yaml'
           propertyPath: 'image.tag'
           value: ${{ steps.generate_sha.outputs.sha }}
           repository: Santosfael/helm-files
           branch: main
           token: ${{ secrets.TOKEN_GITHUB }}
+          commitChange: true
           message: 'Update image tag to ${{ steps.generate_sha.outputs.sha }}'
 
 
