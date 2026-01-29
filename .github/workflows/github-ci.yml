@@ -35,7 +35,15 @@ jobs:
           docker push santosfael/api-proffy:${{ steps.generate_sha.outputs.sha }}
           docker tag santosfael/api-proffy:${{ steps.generate_sha.outputs.sha }} santosfael/api-proffy:latest
           docker push santosfael/api-proffy:latest
-      
+
+      - name: Checkout Target Repository
+        uses: actions/checkout@v6
+        with:
+          repository: Santosfael/helm-files
+          branch: main
+          path: proffy
+          token: ${{ secrets.TOKEN_GITHUB }} 
+
       - name: Update value.yaml in Helm repo
         uses: fjogeleit/yaml-update-action@main
         with:
