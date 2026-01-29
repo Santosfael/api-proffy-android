@@ -10,6 +10,8 @@ jobs:
     name: "Build and Push"
     runs-on: ubuntu-latest
     environment: 'staging'
+    outputs:
+      sha: ${{ steps.generate_sha.outputs.sha }}
 
     steps:
       - name: Checkout
@@ -36,6 +38,12 @@ jobs:
           docker tag santosfael/api-proffy:${{ steps.generate_sha.outputs.sha }} santosfael/api-proffy:latest
           docker push santosfael/api-proffy:latest
 
+  deploy:
+    runs-on: ubuntu-latest
+    name: "Deploy"
+    environment: 'staging'
+    needs: [build-and-push]
+    steps:
       - name: Checkout Target Repository
         uses: actions/checkout@v6
         with:
@@ -54,6 +62,6 @@ jobs:
           branch: main
           token: ${{ secrets.TOKEN_GITHUB }}
           commitChange: true
-          message: 'Update image tag to ${{ steps.generate_sha.outputs.sha }}'
+          message: 'Update image tag to ${{ needs.build-and-push.outputs.sha }}'
 
 
