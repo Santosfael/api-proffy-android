@@ -49,15 +49,21 @@ jobs:
         with:
           repository: Santosfael/helm-files
           branch: main
-          path: proffy
+          path: .
           token: ${{ secrets.TOKEN_GITHUB }} 
+      
+      - name: Debug file structure
+        run: |
+          echo "Conteúdo da pasta helm-files:"
+          cd proffy
+          ls
 
       - name: Update value.yaml in Helm repo
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'proffy/values.yaml'
           propertyPath: 'image.tag'
-          value: ${{ steps.generate_sha.outputs.sha }}
+          value: ${{ needs.build-and-push.outputs.sha }}
           repository: Santosfael/helm-files
           branch: main
           token: ${{ secrets.TOKEN_GITHUB }}
